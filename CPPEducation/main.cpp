@@ -1,57 +1,51 @@
-﻿#include <iostream>
-#include <string>
-
-using namespace std;
-
-static int cnt = 0;
-static long sum = 0;
+﻿#include "file.h";
+#include "windows.h"
 
 int main()
 {
-	while (true) {
-		int number;
-
-		cout << "Input a number: ";
-		cin >> number;
-
-		cout << "[1] See the sum of the inputed numbers;\n";
-		cout << "[2] See how many number are inputed;\n";
-		cout << "[3] Stop\n";
-		cout << "[4] Continue\n";
+	if (openFile()) {
+		cout << "[1] Read the file\n";
+		cout << "[2] Rewrite the file\n";
 
 		int option;
 		cin >> option;
 
-		bool toContinue = true;
+		cout << "------------------------------\n";
 
-		switch (option) {
-			case 1:
-				cout << "The sum is " << sum;
-				break;
+		if (option == 1) {
+			printLines();
+		}
+		else {
+			cout << "Input lines, when you're done, print \"end\"\n";
 
-			case 2:
-				cout << "The amount of numbers is " << cnt;
-				break;
+			string line;
 
-			case 3:
-				toContinue = false;
-				break;
+			Sleep(500);
 
-			default:
-				break;
+			for (int i = 0;;i++) {
+				if (i == 0) {
+					getline(cin, line);
+					continue;
+				}
+
+				cout << "[" << i << "]: ";
+				getline(cin, line);
+
+				if (line == "end") {
+					break;
+				}
+				else {
+					addLine(line);
+				}
+			}
 		}
 
-		if (!toContinue) {
-			break;
-		}
-
-		cout << '\n\n';
+		cout << "\n------------------------------";
+		cout << "\n\nDone";
+	}
+	else {
+		cout << "Something went wrong";
 	}
 
 	return 0;
-}
-
-void add(int n) {
-	cnt++;
-	sum += n;
 }
