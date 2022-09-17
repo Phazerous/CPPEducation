@@ -1,51 +1,36 @@
-﻿#include "file.h";
-#include "windows.h"
+﻿#include <iostream>
+#include <vector>
+#include <string>
 
-int main()
-{
-	if (openFile()) {
-		cout << "[1] Read the file\n";
-		cout << "[2] Rewrite the file\n";
+using namespace std;
 
-		int option;
-		cin >> option;
+vector<string> split(string str, string delimeter) {
+    vector<string> sublines;
+    size_t pos;
 
-		cout << "------------------------------\n";
+    while ((pos = str.find(delimeter)) != string::npos) {
+        sublines.push_back(str.substr(0, pos));
+        str.erase(0, pos + delimeter.length());
+    }
 
-		if (option == 1) {
-			printLines();
-		}
-		else {
-			cout << "Input lines, when you're done, print \"end\"\n";
+    sublines.push_back(str);
 
-			string line;
+    return sublines;
+}
 
-			Sleep(500);
+int main() {
+    vector<string> sublines;
 
-			for (int i = 0;;i++) {
-				if (i == 0) {
-					getline(cin, line);
-					continue;
-				}
+    cout << "Input your line: " << '\n';
 
-				cout << "[" << i << "]: ";
-				getline(cin, line);
+    string line;
+    getline(cin, line);
 
-				if (line == "end") {
-					break;
-				}
-				else {
-					addLine(line);
-				}
-			}
-		}
+    sublines = split(line, " ");
 
-		cout << "\n------------------------------";
-		cout << "\n\nDone";
-	}
-	else {
-		cout << "Something went wrong";
-	}
+    for (string subline : sublines) {
+        cout << subline << '\n';
+    }
 
-	return 0;
+    return 0;
 }
